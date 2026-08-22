@@ -20,16 +20,18 @@
 
   const style = document.createElement('style');
   style.textContent = `
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
     :host {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     
     #button {
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 50px;
       padding: 10px 18px;
       height: 48px;
-      background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+      background: linear-gradient(135deg, #090a0f 0%, #1a1c23 100%);
       color: #ffffff;
       cursor: pointer;
       font-weight: 600;
@@ -51,7 +53,8 @@
     #button:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.5);
+      background: linear-gradient(135deg, #111319 0%, #252833 100%);
     }
 
     #button:hover svg {
@@ -66,13 +69,13 @@
     #div2 {
       display: flex;
       visibility: hidden;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       width: 380px;
       max-width: calc(100vw - 40px);
       height: 550px;
       max-height: calc(100vh - 100px);
       overflow-y: auto;
-      background-color: rgb(0, 0, 0);
+      background-color: #16181d;
       border-radius: 20px;
       flex-direction: column;
       gap: 12px;
@@ -81,7 +84,7 @@
       position: fixed;
       top: ${drawerTop};
       right: ${offsetX};
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
     }
 
     @keyframes slideIn {
@@ -113,21 +116,24 @@
     #input {
       min-height: 52px;
       color: #ffffff;
-      background-color: #1a1d24;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background-color: #22252e;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 14px;
       width: 100%;
       box-sizing: border-box;
       padding: 12px 14px;
       font-size: 13px;
+      font-family: inherit;
+      font-style: normal;
       overflow-y: auto;
       resize: none;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background-color 0.2s;
     }
 
     #input:focus {
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.35);
+      background-color: #272a35;
     }
 
     #input:hover {
@@ -140,6 +146,7 @@
       text-align: center;
       margin: 0;
       user-select: none;
+      font-style: normal;
     }
 
     @keyframes glow {
@@ -148,11 +155,11 @@
 
     #input::-webkit-scrollbar, #div2::-webkit-scrollbar { width: 6px; }
     #input::-webkit-scrollbar-thumb, #div2::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.25);
       border-radius: 10px;
     }
 
-    #div2::-webkit-scrollbar-track { background: black; }
+    #div2::-webkit-scrollbar-track { background: #16181d; }
 
     .User-output {
       max-width: 75%;
@@ -160,8 +167,8 @@
       border-radius: 20px;
       background-color: rgba(105, 111, 117, 0.281);
       color: white;
-      font-style: italic;
-      font-weight: bold;
+      font-style: normal;
+      font-weight: 600;
       align-self: flex-end;
       height: auto;
       overflow-wrap: break-word;
@@ -178,8 +185,8 @@
       border-radius: 20px;
       background-color: rgba(105, 111, 117, 0.281);
       color: white;
-      font-style: italic;
-      font-weight: bold;
+      font-style: normal;
+      font-weight: 600;
       align-self: flex-start;
       height: auto;
       overflow-wrap: break-word;
