@@ -8,20 +8,26 @@
   const offsetX = scriptTag?.getAttribute('data-offset-x') || '20px';
   const offsetY = scriptTag?.getAttribute('data-offset-y') || '20px';
 
-  const drawerTop = `calc(${offsetY} + 50px)`;
+  // Ensure Plus Jakarta Sans font loads globally
+  if (!document.getElementById('ai-widget-font')) {
+    const fontLink = document.createElement('link');
+    fontLink.id = 'ai-widget-font';
+    fontLink.rel = 'stylesheet';
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap';
+    document.head.appendChild(fontLink);
+  }
 
   const host = document.createElement('div');
   host.id = 'ai-widget-host';
 
-  host.style.cssText = `position: fixed !important; top: ${offsetY} !important; right: ${offsetX} !important; z-index: 2147483647 !important;`;
+  // Float host at bottom right
+  host.style.cssText = `position: fixed !important; bottom: ${offsetY} !important; right: ${offsetX} !important; z-index: 2147483647 !important; width: auto !important; height: auto !important;`;
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: 'open' });
 
   const style = document.createElement('style');
   style.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
-
     :host {
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
@@ -37,15 +43,14 @@
       cursor: pointer;
       font-weight: 700;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.95), 0 0 35px rgba(255, 255, 255, 0.6);
       transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-      position: absolute;
-      bottom: 0;
-      right: 0;
+      position: relative;
+      z-index: 2;
     }
     
     #button:hover {
-      box-shadow: 0 0 22px rgba(255, 255, 255, 1), 0 6px 16px rgba(0,0,0,0.4);
+      box-shadow: 0 0 28px rgba(255, 255, 255, 1), 0 0 45px rgba(255, 255, 255, 0.8);
       transform: translateY(-2px);
     }
 
@@ -57,34 +62,37 @@
     #div2 {
       display: flex;
       visibility: hidden;
-      border: none;
+      border: none !important;
+      outline: none;
       width: 380px;
       max-width: calc(100vw - 40px);
       height: 550px;
       max-height: calc(100vh - 100px);
       overflow-y: auto;
-      background-color: rgb(0, 0, 0);
+      background-color: rgb(12, 12, 12);
       border-radius: 20px;
       flex-direction: column;
       gap: 20px;
       padding: 20px;
       box-sizing: border-box;
-      position: fixed;
-      top: ${drawerTop};
-      right: ${offsetX};
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: absolute;
+      bottom: 60px;
+      right: 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 1;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     @keyframes slideIn {
-      0% { transform: translateX(500px); opacity: 0; }
-      100% { transform: translateX(0px); opacity: 1; }
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0px); opacity: 1; }
     }
 
     #input {
       min-height: 8vh;
       margin-top: auto;
       color: white;
-      background-color: rgb(32, 32, 32);
+      background-color: rgb(24, 24, 24);
       border: none;
       outline: none;
       border-radius: 17px;
@@ -113,14 +121,14 @@
     }
 
     #div2::-webkit-scrollbar { width: 6px; }
-    #div2::-webkit-scrollbar-track { background: black; }
+    #div2::-webkit-scrollbar-track { background: rgb(12, 12, 12); }
     #div2::-webkit-scrollbar-thumb {
       background: rgba(255,255,255,0.3);
       border-radius: 10px;
     }
 
     .animate-me {
-      animation: slideIn 0.5s ease-out forwards;
+      animation: slideIn 0.3s ease-out forwards;
     }
     
     .User-output {
@@ -166,6 +174,7 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     @keyframes glowingthingy {
@@ -180,12 +189,12 @@
     }
     
     @keyframes slideOut {
-      0% { transform: translateX(0); opacity: 1; }
-      100% { transform: translateX(500px); opacity: 0; }
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(30px); opacity: 0; }
     }
 
     .slide-out-me {
-      animation: slideOut 0.5s ease-in forwards;
+      animation: slideOut 0.3s ease-in forwards;
     }
 
     @keyframes slideUp {
@@ -230,7 +239,6 @@
     }
   `;
 
-  // Inject DOM Elements inside Shadow Root
   const container = document.createElement('div');
   container.innerHTML = `
     <div id="div2">
@@ -290,14 +298,14 @@
       trying.classList.remove('slide-out-me');
       trying.classList.add('animate-me');
       trying.style.visibility = 'visible';
-      setTimeout(() => trying.classList.remove('animate-me'), 500);
+      setTimeout(() => trying.classList.remove('animate-me'), 300);
     } else {
       trying.classList.remove('animate-me');
       trying.classList.add('slide-out-me');
       setTimeout(() => {
         if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-      }, 500);
-      setTimeout(() => trying.classList.remove('slide-out-me'), 500);
+      }, 300);
+      setTimeout(() => trying.classList.remove('slide-out-me'), 300);
     }
   });
 
@@ -387,9 +395,9 @@
 
         setTimeout(() => {
           if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-        }, 500);
+        }, 300);
 
-        setTimeout(() => trying.classList.remove('slide-out-me'), 500);
+        setTimeout(() => trying.classList.remove('slide-out-me'), 300);
       }
     }
   });
