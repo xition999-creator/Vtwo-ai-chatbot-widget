@@ -25,22 +25,24 @@
     }
     
     #button {
-      border: none;
-      border-radius: 10px;
-      padding: 4px 6px;
-      height: auto;
-      background-color: rgb(20, 20, 20);
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0px 0px 60px rgba(233, 232, 232, 0.89);
+           padding: 14px 14px;
+            border: none;
+            border-radius: 19px;
+            cursor: pointer;
+            background-color: rgb(61, 60, 60);
+            font-style: initial;
+            color: rgb(248, 232, 202);
+            font-weight: bolder;
+            box-shadow: 0px 1px 13px rgb(247, 236, 215);
+            float: right;
+            
       transition: background-color 0.3s, transform 0.1s;
     }
     
     #button:active {
-      background-color: rgb(61, 190, 169);
-      text-shadow: 3px 3px 4px rgba(0,0,0,0.4);
-      box-shadow: 3px 3px 4px rgba(0,0,0,0.3);
+      background-color: rgb(247, 236, 215);
+      text-shadow: 3px 3px 4px rgba(255,255,255,255);
+      box-shadow: 0px 1px 13px rgb(247, 236, 215);
       transform: translate(1px, 3px);
     }
 
