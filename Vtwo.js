@@ -27,7 +27,7 @@
     #button {
       border: none;
       border-radius: 10px;
-      padding: 8px 12px;
+      padding: 4px 6px;
       height: auto;
       background-color: rgb(20, 20, 20);
       color: white;
@@ -60,7 +60,7 @@
       padding: 20px;
       box-sizing: border-box;
       position: fixed;
-      top: ${drawerTop};
+      bottom: calc(${offsetY} + 50px);
       right: ${offsetX};
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
@@ -222,7 +222,7 @@
       <div id="div3"></div>
       <textarea id="input" placeholder="Ask something about the site here...(Alt + c to clear)" maxlength="500"></textarea>
     </div>
-    <button id="button">Click me</button>
+    <button id="button">AI</button>
   `;
 
   shadow.appendChild(style);
