@@ -27,7 +27,7 @@
     }
     
     #button {
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       outline: none;
       border-radius: 50px;
       padding: 12px 20px;
@@ -37,7 +37,7 @@
       cursor: pointer;
       font-weight: 700;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
       transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s, border-color 0.3s;
       position: absolute;
       bottom: 0;
@@ -48,7 +48,7 @@
       background-color: #ffffff;
       color: #000000;
       border-color: #ffffff;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
     }
 
@@ -61,14 +61,13 @@
     #div2 {
       display: flex;
       visibility: hidden;
-      opacity: 0;
       border: 1px solid rgba(255, 255, 255, 0.1);
       width: 380px;
       max-width: calc(100vw - 40px);
       height: 550px;
       max-height: calc(100vh - 100px);
       overflow-y: auto;
-      background-color: rgb(0, 0, 0);
+      background-color: #000000;
       border-radius: 20px;
       flex-direction: column;
       gap: 20px;
@@ -78,27 +77,24 @@
       top: ${drawerTop};
       right: ${offsetX};
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: visibility 0.3s, opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .animate-me {
-      visibility: visible !important;
-      opacity: 1 !important;
-      animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .slide-out-me {
-      animation: slideOut 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
     }
 
     @keyframes slideIn {
-      0% { transform: translateY(20px) scale(0.96); opacity: 0; }
-      100% { transform: translateY(0) scale(1); opacity: 1; }
+      0% { transform: translateX(500px); opacity: 0; }
+      100% { transform: translateX(0px); opacity: 1; }
     }
 
     @keyframes slideOut {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(20px) scale(0.96); opacity: 0; }
+      0% { transform: translateX(0px); opacity: 1; }
+      100% { transform: translateX(500px); opacity: 0; }
+    }
+
+    .animate-me {
+      animation: slideIn 0.5s ease-out forwards;
+    }
+
+    .slide-out-me {
+      animation: slideOut 0.5s ease-in forwards;
     }
 
     #input {
@@ -124,7 +120,7 @@
     }
 
     @keyframes glow {
-      100% { box-shadow: 0px 0px 30px rgba(128, 0, 128, 0.4); }
+      100% { box-shadow: 0px 0px 15px rgba(128, 0, 128, 0.4); }
     }
 
     #input::-webkit-scrollbar { width: 6px; }
@@ -186,10 +182,10 @@
     }
 
     @keyframes glowingthingy {
-      100% { box-shadow: 0px 0px 30px rgba(128, 0, 128, 0.4); }
+      100% { box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.5); }
     }
     @keyframes glowingthing {
-      100% { box-shadow: 0px 0px 30px rgba(57, 183, 226, 0.4); }
+      100% { box-shadow: 0px 0px 20px rgba(57, 183, 226, 0.5); }
     }
 
     .glowingthingy {
@@ -221,7 +217,7 @@
             
     @keyframes glowingtingy {
       0% { box-shadow: 0px 0px 0px transparent; }
-      100% { box-shadow: 0px 0px 30px rgba(255, 34, 34, 0.5); }
+      100% { box-shadow: 0px 0px 25px rgba(255, 34, 34, 0.6); }
     }
 
     .glowingtingy {
@@ -229,8 +225,8 @@
     }
 
     @keyframes glowytingy {
-      0% { box-shadow: 0px 0px 30px transparent; }
-      100% { box-shadow: 0px 0px 30px rgba(31, 243, 31, 0.5); }
+      0% { box-shadow: 0px 0px 25px transparent; }
+      100% { box-shadow: 0px 0px 25px rgba(31, 243, 31, 0.6); }
     }
 
     .glowytingy {
@@ -297,15 +293,13 @@
     if (clicks % 2 === 0) {
       trying.classList.remove('slide-out-me');
       trying.classList.add('animate-me');
+      trying.style.visibility = 'visible';
     } else {
       trying.classList.remove('animate-me');
       trying.classList.add('slide-out-me');
       setTimeout(() => {
-        if (clicks % 2 !== 0) {
-          trying.style.visibility = 'hidden';
-          trying.classList.remove('slide-out-me');
-        }
-      }, 300);
+        if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
+      }, 500);
     }
   });
 
@@ -394,11 +388,8 @@
         trying.classList.add('slide-out-me');
 
         setTimeout(() => {
-          if (clicks % 2 !== 0) {
-            trying.style.visibility = 'hidden';
-            trying.classList.remove('slide-out-me');
-          }
-        }, 300);
+          if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
+        }, 500);
       }
     }
   });
