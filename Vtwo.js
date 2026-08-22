@@ -49,7 +49,7 @@
     #div2 {
       display: flex;
       visibility: hidden;
-      border: 2px;
+      border: 5px;
       border-width: solid;
       border-color: white;
       width: 380px;
@@ -57,7 +57,7 @@
       height: 550px;
       max-height: calc(100vh - 100px);
       overflow-y: auto;
-      background-color: rgb(67, 66, 66);
+      background-color: rgb(57, 54, 79);
       border-radius: 20px;
       flex-direction: column;
       gap: 20px;
