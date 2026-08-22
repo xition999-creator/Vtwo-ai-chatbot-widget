@@ -32,7 +32,7 @@
       border-radius: 50px;
       padding: 12px 20px;
       height: auto;
-      background-color: #0f0f0f;
+      background-color: #000;
       color: #ffffff;
       cursor: pointer;
       font-weight: 700;
