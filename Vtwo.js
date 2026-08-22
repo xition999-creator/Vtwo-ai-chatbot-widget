@@ -215,6 +215,17 @@
     .glowytingy {
       animation: glowytingy 2s infinite alternate;
     }
+    textarea:focus {
+  
+  outline: none; 
+  
+  border-color: #3b82f6; 
+  
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); 
+  
+  transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
   `;
 
   // Inject DOM Elements inside Shadow Root
