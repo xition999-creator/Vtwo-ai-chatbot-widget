@@ -8,12 +8,13 @@
   const offsetX = scriptTag?.getAttribute('data-offset-x') || '20px';
   const offsetY = scriptTag?.getAttribute('data-offset-y') || '20px';
 
-  const drawerTop = `calc(${offsetY} + 50px)`;
+  const drawerBottom = `calc(${offsetY} + 60px)`;
 
   const host = document.createElement('div');
   host.id = 'ai-widget-host';
 
-  host.style.cssText = `position: fixed !important; top: ${offsetY} !important; right: ${offsetX} !important; z-index: 2147483647 !important;`;
+  // FIX: Anchor host to bottom-right instead of top-right
+  host.style.cssText = `position: fixed !important; bottom: ${offsetY} !important; right: ${offsetX} !important; z-index: 2147483647 !important;`;
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: 'open' });
@@ -74,27 +75,29 @@
       padding: 20px;
       box-sizing: border-box;
       position: fixed;
-      top: ${drawerTop};
+      bottom: ${drawerBottom};
       right: ${offsetX};
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transform-origin: bottom right;
     }
 
+    /* FIX: Vertical slide & scale animations to avoid horizontal overflow/clipping */
     @keyframes slideIn {
-      0% { transform: translateX(500px); opacity: 0; }
-      100% { transform: translateX(0px); opacity: 1; }
+      0% { transform: translateY(30px) scale(0.95); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
     }
 
     @keyframes slideOut {
-      0% { transform: translateX(0px); opacity: 1; }
-      100% { transform: translateX(500px); opacity: 0; }
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(30px) scale(0.95); opacity: 0; }
     }
 
     .animate-me {
-      animation: slideIn 0.5s ease-out forwards;
+      animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .slide-out-me {
-      animation: slideOut 0.5s ease-in forwards;
+      animation: slideOut 0.25s cubic-bezier(0.7, 0, 0.84, 0) forwards;
     }
 
     #input {
@@ -299,7 +302,7 @@
       trying.classList.add('slide-out-me');
       setTimeout(() => {
         if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-      }, 500);
+      }, 250); // FIX: Match slideOut animation duration (0.25s)
     }
   });
 
@@ -389,7 +392,7 @@
 
         setTimeout(() => {
           if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-        }, 500);
+        }, 250); // FIX: Match slideOut animation duration (0.25s)
       }
     }
   });
