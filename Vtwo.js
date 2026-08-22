@@ -8,243 +8,178 @@
   const offsetX = scriptTag?.getAttribute('data-offset-x') || '20px';
   const offsetY = scriptTag?.getAttribute('data-offset-y') || '20px';
 
-  const drawerBottom = `calc(${offsetY} + 60px)`;
-
   const host = document.createElement('div');
   host.id = 'ai-widget-host';
 
-  // FIX: Anchor host to bottom-right instead of top-right
-  host.style.cssText = `position: fixed !important; bottom: ${offsetY} !important; right: ${offsetX} !important; z-index: 2147483647 !important;`;
+  host.style.cssText = `
+    position: fixed !important; 
+    bottom: ${offsetY} !important; 
+    right: ${offsetX} !important; 
+    z-index: 2147483647 !important;
+  `;
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: 'open' });
 
   const style = document.createElement('style');
   style.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
     :host {
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
     
+    /* MODERN FLOATING BUTTON */
     #button {
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       outline: none;
-      border-radius: 50px;
-      padding: 12px 20px;
-      height: auto;
-      background-color: #000000;
+      border-radius: 30px;
+      padding: 0 22px;
+      height: 48px;
+      background: linear-gradient(135deg, #1e1e24 0%, #0a0a0c 100%);
       color: #ffffff;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.3px;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-      transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s, border-color 0.3s;
-      position: absolute;
-      bottom: 0;
-      right: 0;
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.6), 0 2px 6px -1px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      float: right;
     }
     
     #button:hover {
-      background-color: #ffffff;
-      color: #000000;
-      border-color: #ffffff;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, #2a2a32 0%, #121215 100%);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.1);
       transform: translateY(-2px);
     }
 
     #button:active {
-      background-color: #e0e0e0;
-      color: #000000;
       transform: translateY(1px);
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.5);
     }
 
+    /* DRAWER & ANIMATIONS FIX */
     #div2 {
       display: flex;
-      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
       border: 1px solid rgba(255, 255, 255, 0.1);
       width: 380px;
       max-width: calc(100vw - 40px);
       height: 550px;
-      max-height: calc(100vh - 100px);
+      max-height: calc(100vh - 120px);
       overflow-y: auto;
-      background-color: #000000;
+      background-color: #0d0d10;
       border-radius: 20px;
       flex-direction: column;
       gap: 20px;
       padding: 20px;
       box-sizing: border-box;
-      position: fixed;
-      bottom: ${drawerBottom};
-      right: ${offsetX};
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: absolute;
+      bottom: 64px;
+      right: 0;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
       transform-origin: bottom right;
+      transform: translateY(20px) scale(0.95);
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* FIX: Vertical slide & scale animations to avoid horizontal overflow/clipping */
-    @keyframes slideIn {
-      0% { transform: translateY(30px) scale(0.95); opacity: 0; }
-      100% { transform: translateY(0) scale(1); opacity: 1; }
-    }
-
-    @keyframes slideOut {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(30px) scale(0.95); opacity: 0; }
-    }
-
-    .animate-me {
-      animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .slide-out-me {
-      animation: slideOut 0.25s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+    /* ACTIVE OPEN STATE */
+    #div2.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
     }
 
     #input {
-      min-height: 8vh;
+      min-height: 50px;
       margin-top: auto;
       color: white;
-      background-color: rgb(32, 32, 32);
-      border: none;
+      background-color: #1a1a20;
+      border: 1px solid rgba(255,255,255,0.08);
       outline: none;
-      border-radius: 17px;
+      border-radius: 14px;
       width: 100%;
       box-sizing: border-box;
-      padding: 12px;
+      padding: 12px 14px;
       overflow-y: auto;
-      margin-bottom: 8px;
       resize: none;
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 14px;
+      transition: border-color 0.2s;
     }
 
-    #input:hover {
-      animation: glow 3s infinite alternate;
+    #input:focus {
+      border-color: rgba(255, 255, 255, 0.25);
     }
 
-    @keyframes glow {
-      100% { box-shadow: 0px 0px 15px rgba(128, 0, 128, 0.4); }
-    }
-
-    #input::-webkit-scrollbar { width: 6px; }
-    #input::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
-      border-radius: 10px;
-    }
-
-    #div2::-webkit-scrollbar { width: 6px; }
-    #div2::-webkit-scrollbar-track { background: black; }
-    #div2::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
+    #input::-webkit-scrollbar, #div2::-webkit-scrollbar { width: 4px; }
+    #input::-webkit-scrollbar-thumb, #div2::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
       border-radius: 10px;
     }
 
     .User-output {
-      max-width: 75%;
+      max-width: 80%;
       padding: 10px 16px;
-      border-radius: 20px;
-      background-color: rgba(105, 111, 117, 0.281);
+      border-radius: 16px 16px 2px 16px;
+      background-color: #2a2b36;
       color: white;
-      font-style: normal;
+      font-size: 14px;
       font-weight: 500;
-      font-family: 'Plus Jakarta Sans', sans-serif;
       align-self: flex-end;
-      height: auto;
       overflow-wrap: break-word;
       line-height: 1.4;
       margin-bottom: 10px;
-      animation: slideUp 0.3s ease-out forwards;
-      word-break: break-word; 
-      overflow-x: hidden;
+      animation: slideUp 0.25s ease-out forwards;
     }
 
     .AI-output {
-      max-width: 75%;
+      max-width: 80%;
       padding: 10px 16px;
-      border-radius: 20px;
-      background-color: rgba(105, 111, 117, 0.281);
-      color: white;
-      font-style: normal;
+      border-radius: 16px 16px 16px 2px;
+      background-color: #181920;
+      border: 1px solid rgba(255,255,255,0.05);
+      color: #e0e0e0;
+      font-size: 14px;
       font-weight: 500;
-      font-family: 'Plus Jakarta Sans', sans-serif;
       align-self: flex-start;
-      height: auto;
       overflow-wrap: break-word;
       line-height: 1.4;
       margin-bottom: 10px;
-      animation: slideUp 0.3s ease-out forwards;
+      animation: slideUp 0.25s ease-out forwards;
     }
 
     #div3 {
       border: none;
       width: 100%;
-      height: auto;
-      box-sizing: border-box;
       display: flex;
       flex-direction: column;
     }
 
-    @keyframes glowingthingy {
-      100% { box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.5); }
-    }
-    @keyframes glowingthing {
-      100% { box-shadow: 0px 0px 20px rgba(57, 183, 226, 0.5); }
-    }
-
-    .glowingthingy {
-      animation: glowingthingy 2s infinite alternate;
-    }
-
     @keyframes slideUp {
-      0% { transform: translateY(20px); opacity: 0; }
+      0% { transform: translateY(10px); opacity: 0; }
       100% { transform: translateY(0px); opacity: 1; }
-    }
-
-    @keyframes sldUp {
-      0% { transform: translateX(0px); opacity: 1; }
-      100% { transform: translateX(240px); opacity: 0; }
-    }
-
-    @keyframes slide {
-      0% { transform: translateX(0px); }
-      100% { transform: translateX(20px); }
-    }
-
-    #thinkingone {
-      animation: slide 0.8s ease-out infinite forwards, glowingthing 2s infinite alternate;
-    }
-
-    #thinkingone.finishing {
-      animation: sldUp 0.5s ease-out forwards, glowingthing 0.5s infinite alternate;
-    }
-            
-    @keyframes glowingtingy {
-      0% { box-shadow: 0px 0px 0px transparent; }
-      100% { box-shadow: 0px 0px 25px rgba(255, 34, 34, 0.6); }
-    }
-
-    .glowingtingy {
-      animation: glowingtingy 4s infinite alternate; 
-    }
-
-    @keyframes glowytingy {
-      0% { box-shadow: 0px 0px 25px transparent; }
-      100% { box-shadow: 0px 0px 25px rgba(31, 243, 31, 0.6); }
-    }
-
-    .glowytingy {
-      animation: glowytingy 2s infinite alternate;
     }
   `;
 
-  // Inject DOM Elements inside Shadow Root
   const container = document.createElement('div');
   container.innerHTML = `
     <div id="div2">
       <div id="div3"></div>
-      <textarea id="input" placeholder="Ask something about the site here...(Alt + c to clear)" maxlength="500"></textarea>
+      <textarea id="input" placeholder="Ask something... (Alt + C to clear)" maxlength="500"></textarea>
     </div>
-    <button id="button">Click me</button>
+    <button id="button">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      <span>Chat</span>
+    </button>
   `;
 
   shadow.appendChild(style);
@@ -255,8 +190,7 @@
   const input = shadow.getElementById('input');
   const div3 = shadow.getElementById('div3');
 
-  let clicks = 1;
-  let count = 0;
+  let isOpen = false;
 
   const SESSION_KEY = 'chat_session_id';
   const TIMESTAMP_KEY = 'chat_session_time';
@@ -277,33 +211,29 @@
       const response = await fetch(WEBHOOK_CHAT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          session_id: sessionId,
-          message: userMessage
-        })
+        body: JSON.stringify({ session_id: sessionId, message: userMessage })
       });
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
       return data.text || data.ai_message?.text || "Sorry, I couldn't process that.";
     } catch (error) {
-      console.error("n8n Fetch Error:", error);
       return "Connection error. Please try again.";
     }
   }
 
-  button.addEventListener('click', () => {
-    clicks++;
-    if (clicks % 2 === 0) {
-      trying.classList.remove('slide-out-me');
-      trying.classList.add('animate-me');
-      trying.style.visibility = 'visible';
+  function toggleChat() {
+    isOpen = !isOpen;
+    if (isOpen) {
+      trying.classList.add('open');
+      setTimeout(() => input.focus(), 250);
     } else {
-      trying.classList.remove('animate-me');
-      trying.classList.add('slide-out-me');
-      setTimeout(() => {
-        if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-      }, 250); // FIX: Match slideOut animation duration (0.25s)
+      trying.classList.remove('open');
     }
+  }
+
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleChat();
   });
 
   input.addEventListener('keydown', async (e) => {
@@ -313,11 +243,6 @@
       if (usrInput.trim() === "" || input.disabled) return;
 
       input.disabled = true;
-      count++;
-      if (count % 5 === 0 || usrInput.length > 30) {
-        trying.classList.add('glowingthingy');
-        setTimeout(() => trying.classList.remove('glowingthingy'), 4000);
-      }
 
       let UsrOutput = document.createElement('div');
       UsrOutput.className = 'User-output';
@@ -327,55 +252,31 @@
       input.value = '';
       trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
 
-      try {
-        let thinking = document.createElement('div');
-        thinking.classList.add('AI-output');
-        thinking.id = 'thinkingone';
-        thinking.textContent = 'Thinking...';
-        div3.appendChild(thinking);
+      let thinking = document.createElement('div');
+      thinking.className = 'AI-output';
+      thinking.textContent = 'Thinking...';
+      div3.appendChild(thinking);
 
-        let AImsg = await SendToN8N(usrInput);
-        let thinkingRemove = shadow.getElementById('thinkingone');
+      let AImsg = await SendToN8N(usrInput);
+      thinking.remove();
 
-        if (thinkingRemove) thinkingRemove.classList.add('finishing');
+      let AIOutput = document.createElement('div');
+      AIOutput.className = 'AI-output';
+      AIOutput.textContent = AImsg;
+      div3.appendChild(AIOutput);
 
-        setTimeout(() => {
-          if (thinkingRemove) thinkingRemove.remove();
-
-          let emailMatch = AImsg.match(/Email\d+/);
-          if (emailMatch) {
-            trying.classList.add('glowytingy');
-            setTimeout(() => trying.classList.remove('glowytingy'), 4000);
-            AImsg = AImsg.replace(emailMatch, "").trim();
-          }
-
-          let AIOutput = document.createElement('div');
-          AIOutput.className = 'AI-output';
-          AIOutput.textContent = AImsg;
-          div3.appendChild(AIOutput);
-
-          if (AImsg.trim() === "Can't help with that lil bro") {
-            trying.classList.add('glowingtingy');
-            setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
-          }
-        }, 700);
-      } finally {
-        setTimeout(() => { input.disabled = false; }, 700);
-        trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
-      }
+      input.disabled = false;
+      trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
     }
   });
 
   window.addEventListener('keydown', (f) => {
     if (f.altKey && f.code === 'KeyC') {
       f.preventDefault();
-
       if (div3) div3.innerHTML = '';
       if (input) input.value = '';
-
       localStorage.removeItem(SESSION_KEY);
       localStorage.removeItem(TIMESTAMP_KEY);
-
       sessionId = 'sess_' + Math.random().toString(36).substring(2, 11);
       localStorage.setItem(SESSION_KEY, sessionId);
       localStorage.setItem(TIMESTAMP_KEY, Date.now().toString());
@@ -383,16 +284,10 @@
   });
 
   window.addEventListener('click', (e) => {
-    if (clicks % 2 === 0) {
+    if (isOpen) {
       const path = e.composedPath();
       if (!path.includes(trying) && !path.includes(button)) {
-        clicks++;
-        trying.classList.remove('animate-me');
-        trying.classList.add('slide-out-me');
-
-        setTimeout(() => {
-          if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-        }, 250); // FIX: Match slideOut animation duration (0.25s)
+        toggleChat();
       }
     }
   });
