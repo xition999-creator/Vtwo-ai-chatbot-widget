@@ -23,68 +23,56 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
 
     :host {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
     
     #button {
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: none;
+      outline: none;
       border-radius: 50px;
-      padding: 10px 18px;
-      height: 48px;
-      background: linear-gradient(135deg, #090a0f 0%, #1a1c23 100%);
-      color: #ffffff;
+      padding: 12px 20px;
+      height: auto;
+      background-color: rgb(54, 209, 183);
+      color: white;
       cursor: pointer;
-      font-weight: 600;
-      font-size: 14px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    #button svg {
-      width: 18px;
-      height: 18px;
-      stroke: #ffffff;
-      transition: transform 0.3s ease;
-    }
-
-    #button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.5);
-      background: linear-gradient(135deg, #111319 0%, #252833 100%);
-    }
-
-    #button:hover svg {
-      transform: scale(1.1) rotate(-5deg);
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 4px 12px rgba(0,0,0,0.3);
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      position: absolute;
+      bottom: 0;
+      right: 0;
     }
     
+    #button:hover {
+      box-shadow: 0 0 22px rgba(255, 255, 255, 1), 0 6px 16px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
+
     #button:active {
+      background-color: rgb(61, 190, 169);
       transform: translateY(1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     #div2 {
       display: flex;
       visibility: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: none;
       width: 380px;
       max-width: calc(100vw - 40px);
       height: 550px;
       max-height: calc(100vh - 100px);
       overflow-y: auto;
-      background-color: #16181d;
+      background-color: rgb(0, 0, 0);
       border-radius: 20px;
       flex-direction: column;
-      gap: 12px;
+      gap: 20px;
       padding: 20px;
       box-sizing: border-box;
       position: fixed;
       top: ${drawerTop};
       right: ${offsetX};
-      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     @keyframes slideIn {
@@ -92,75 +80,49 @@
       100% { transform: translateX(0px); opacity: 1; }
     }
 
-    @keyframes slideOut {
-      0% { transform: translateX(0); opacity: 1; }
-      100% { transform: translateX(500px); opacity: 0; }
-    }
-
-    .animate-me {
-      animation: slideIn 0.5s ease-out forwards;
-    }
-
-    .slide-out-me {
-      animation: slideOut 0.5s ease-in forwards;
-    }
-
-    .input-container {
-      margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      width: 100%;
-    }
-
     #input {
-      min-height: 52px;
-      color: #ffffff;
-      background-color: #22252e;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
+      min-height: 8vh;
+      margin-top: auto;
+      color: white;
+      background-color: rgb(32, 32, 32);
+      border: none;
+      outline: none;
+      border-radius: 17px;
       width: 100%;
       box-sizing: border-box;
-      padding: 12px 14px;
-      font-size: 13px;
-      font-family: inherit;
-      font-style: normal;
+      padding: 12px;
       overflow-y: auto;
+      margin-bottom: 8px;
       resize: none;
-      outline: none;
-      transition: border-color 0.2s, background-color 0.2s;
-    }
-
-    #input:focus {
-      border-color: rgba(255, 255, 255, 0.35);
-      background-color: #272a35;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
     }
 
     #input:hover {
       animation: glow 3s infinite alternate;
     }
 
-    .disclaimer-text {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.4);
-      text-align: center;
-      margin: 0;
-      user-select: none;
-      font-style: normal;
-    }
-
     @keyframes glow {
-      100% { box-shadow: 0px 0px 30px rgba(168, 85, 247, 0.4); }
+      100% { box-shadow: 0px 0px 60px purple; }
     }
 
-    #input::-webkit-scrollbar, #div2::-webkit-scrollbar { width: 6px; }
-    #input::-webkit-scrollbar-thumb, #div2::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.25);
+    #input::-webkit-scrollbar { width: 6px; }
+    #input::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
       border-radius: 10px;
     }
 
-    #div2::-webkit-scrollbar-track { background: #16181d; }
+    #div2::-webkit-scrollbar { width: 6px; }
+    #div2::-webkit-scrollbar-track { background: black; }
+    #div2::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 10px;
+    }
 
+    .animate-me {
+      animation: slideIn 0.5s ease-out forwards;
+    }
+    
     .User-output {
       max-width: 75%;
       padding: 10px 16px;
@@ -168,7 +130,8 @@
       background-color: rgba(105, 111, 117, 0.281);
       color: white;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       align-self: flex-end;
       height: auto;
       overflow-wrap: break-word;
@@ -186,7 +149,8 @@
       background-color: rgba(105, 111, 117, 0.281);
       color: white;
       font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       align-self: flex-start;
       height: auto;
       overflow-wrap: break-word;
@@ -213,6 +177,15 @@
 
     .glowingthingy {
       animation: glowingthingy 2s infinite alternate;
+    }
+    
+    @keyframes slideOut {
+      0% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(500px); opacity: 0; }
+    }
+
+    .slide-out-me {
+      animation: slideOut 0.5s ease-in forwards;
     }
 
     @keyframes slideUp {
@@ -262,17 +235,9 @@
   container.innerHTML = `
     <div id="div2">
       <div id="div3"></div>
-      <div class="input-container">
-        <textarea id="input" placeholder="Ask something about the site... (Alt + C to clear)" maxlength="500"></textarea>
-        <p class="disclaimer-text">AI can make mistakes. Verify important info.</p>
-      </div>
+      <textarea id="input" placeholder="Ask something about the site here...(Alt + c to clear)" maxlength="500"></textarea>
     </div>
-    <button id="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
-      <span>Ask AI</span>
-    </button>
+    <button id="button">Click me</button>
   `;
 
   shadow.appendChild(style);
