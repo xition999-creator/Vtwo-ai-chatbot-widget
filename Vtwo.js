@@ -27,17 +27,17 @@
     }
     
     #button {
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       outline: none;
       border-radius: 50px;
       padding: 12px 20px;
       height: auto;
-      background-color: #000;
+      background-color: #000000;
       color: #ffffff;
       cursor: pointer;
       font-weight: 700;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s, border-color 0.3s;
       position: absolute;
       bottom: 0;
@@ -46,21 +46,22 @@
     
     #button:hover {
       background-color: #ffffff;
-      color: #0f0f0f;
+      color: #000000;
       border-color: #ffffff;
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25), 0 4px 12px rgba(0,0,0,0.5);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
     }
 
     #button:active {
       background-color: #e0e0e0;
-      color: #0f0f0f;
+      color: #000000;
       transform: translateY(1px);
     }
 
     #div2 {
       display: flex;
       visibility: hidden;
+      opacity: 0;
       border: 1px solid rgba(255, 255, 255, 0.1);
       width: 380px;
       max-width: calc(100vw - 40px);
@@ -77,11 +78,27 @@
       top: ${drawerTop};
       right: ${offsetX};
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: visibility 0.3s, opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .animate-me {
+      visibility: visible !important;
+      opacity: 1 !important;
+      animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide-out-me {
+      animation: slideOut 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
     }
 
     @keyframes slideIn {
-      0% { transform: translateX(500px); opacity: 0; }
-      100% { transform: translateX(0px); opacity: 1; }
+      0% { transform: translateY(20px) scale(0.96); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes slideOut {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(20px) scale(0.96); opacity: 0; }
     }
 
     #input {
@@ -107,7 +124,7 @@
     }
 
     @keyframes glow {
-      100% { box-shadow: 0px 0px 60px purple; }
+      100% { box-shadow: 0px 0px 30px rgba(128, 0, 128, 0.4); }
     }
 
     #input::-webkit-scrollbar { width: 6px; }
@@ -123,10 +140,6 @@
       border-radius: 10px;
     }
 
-    .animate-me {
-      animation: slideIn 0.5s ease-out forwards;
-    }
-    
     .User-output {
       max-width: 75%;
       padding: 10px 16px;
@@ -173,23 +186,14 @@
     }
 
     @keyframes glowingthingy {
-      100% { box-shadow: 0px 0px 60px purple; }
+      100% { box-shadow: 0px 0px 30px rgba(128, 0, 128, 0.4); }
     }
     @keyframes glowingthing {
-      100% { box-shadow: 0px 0px 60px rgb(57, 183, 226); }
+      100% { box-shadow: 0px 0px 30px rgba(57, 183, 226, 0.4); }
     }
 
     .glowingthingy {
       animation: glowingthingy 2s infinite alternate;
-    }
-    
-    @keyframes slideOut {
-      0% { transform: translateX(0); opacity: 1; }
-      100% { transform: translateX(500px); opacity: 0; }
-    }
-
-    .slide-out-me {
-      animation: slideOut 0.5s ease-in forwards;
     }
 
     @keyframes slideUp {
@@ -217,7 +221,7 @@
             
     @keyframes glowingtingy {
       0% { box-shadow: 0px 0px 0px transparent; }
-      100% { box-shadow: 0px 0px 60px rgb(255, 34, 34); }
+      100% { box-shadow: 0px 0px 30px rgba(255, 34, 34, 0.5); }
     }
 
     .glowingtingy {
@@ -225,8 +229,8 @@
     }
 
     @keyframes glowytingy {
-      0% { box-shadow: 0px 0px 60px transparent; }
-      100% { box-shadow: 0px 0px 60px rgb(31, 243, 31); }
+      0% { box-shadow: 0px 0px 30px transparent; }
+      100% { box-shadow: 0px 0px 30px rgba(31, 243, 31, 0.5); }
     }
 
     .glowytingy {
@@ -293,15 +297,15 @@
     if (clicks % 2 === 0) {
       trying.classList.remove('slide-out-me');
       trying.classList.add('animate-me');
-      trying.style.visibility = 'visible';
-      setTimeout(() => trying.classList.remove('animate-me'), 500);
     } else {
       trying.classList.remove('animate-me');
       trying.classList.add('slide-out-me');
       setTimeout(() => {
-        if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-      }, 500);
-      setTimeout(() => trying.classList.remove('slide-out-me'), 500);
+        if (clicks % 2 !== 0) {
+          trying.style.visibility = 'hidden';
+          trying.classList.remove('slide-out-me');
+        }
+      }, 300);
     }
   });
 
@@ -390,10 +394,11 @@
         trying.classList.add('slide-out-me');
 
         setTimeout(() => {
-          if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-        }, 500);
-
-        setTimeout(() => trying.classList.remove('slide-out-me'), 500);
+          if (clicks % 2 !== 0) {
+            trying.style.visibility = 'hidden';
+            trying.classList.remove('slide-out-me');
+          }
+        }, 300);
       }
     }
   });
