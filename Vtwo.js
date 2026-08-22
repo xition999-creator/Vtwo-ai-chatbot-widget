@@ -13,7 +13,7 @@
   const host = document.createElement('div');
   host.id = 'ai-widget-host';
 
-  host.style.cssText = `position: fixed !important; top: ${offsetY} !important; right: ${offsetX} !important; z-index: 2147483647 !important;`;
+  host.style.cssText = `position: fixed !important; bottom: ${offsetY} !important; right: ${offsetX} !important; z-index: 2147483647 !important;`;
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: 'open' });
@@ -29,11 +29,11 @@
       border-radius: 10px;
       padding: 8px 12px;
       height: auto;
-      background-color: rgb(52, 52, 52);
+      background-color: rgb(20, 20, 20);
       color: white;
       cursor: pointer;
       font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0px 0px 60px rgba(233, 232, 232, 0.89);
       transition: background-color 0.3s, transform 0.1s;
     }
     
