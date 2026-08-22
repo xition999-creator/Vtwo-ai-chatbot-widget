@@ -381,4 +381,4 @@
   });
 })();
 
-can you like make it a cool design or something idk and write AI can make mistakes on the bottom of the input box
+
