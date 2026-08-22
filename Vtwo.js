@@ -49,13 +49,15 @@
     #div2 {
       display: flex;
       visibility: hidden;
-      border: none;
+      border: 2px;
+      border-width: solid;
+      border-color: white;
       width: 380px;
       max-width: calc(100vw - 40px);
       height: 550px;
       max-height: calc(100vh - 100px);
       overflow-y: auto;
-      background-color: rgb(0, 0, 0);
+      background-color: rgb(67, 66, 66);
       border-radius: 20px;
       flex-direction: column;
       gap: 20px;
