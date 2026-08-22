@@ -29,7 +29,7 @@
       border-radius: 10px;
       padding: 8px 12px;
       height: auto;
-      background-color: rgb(54, 209, 183);
+      background-color: rgb(52, 52, 52);
       color: white;
       cursor: pointer;
       font-weight: bold;
