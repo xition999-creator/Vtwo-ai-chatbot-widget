@@ -127,7 +127,7 @@
       max-width: 75%;
       padding: 10px 16px;
       border-radius: 20px;
-      background-color: rgba(105, 111, 117, 0.281);
+      background-color: rgba(54, 69, 79, 0.281);
       color: white;
       font-weight: 500;
       align-self: flex-end;
