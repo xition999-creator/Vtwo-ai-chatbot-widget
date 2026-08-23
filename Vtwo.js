@@ -49,7 +49,7 @@
     #div2 {
       display: flex;
       visibility: hidden;
-      border: 1px solid rgb(214, 214, 215);
+      border: 1px solid rgb(184, 190, 166);
       width: 380px;
       max-width: calc(100vw - 40px);
       height: 550px;
@@ -76,7 +76,7 @@
       min-height: 8vh;
       margin-top: auto;
       color: white;
-      background-color: rgb(26, 26, 28);
+      background-color: rgb(23, 23, 25);
       border: none;
       border-radius: 17px;
       width: 100%;
