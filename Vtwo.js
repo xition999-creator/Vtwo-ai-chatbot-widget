@@ -224,13 +224,7 @@
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); 
   
   transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
-}
-#par{
-  color: rgb(60,60,60);
-  padding: 0px 0px;
-  gap: 2px;
-  text-align: center;
-}
+
 
   `;
 
@@ -240,7 +234,7 @@
     <div id="div2">
       <div id="div3"></div>
       <textarea id="input" placeholder="Ask something about the site here...(Alt + c to clear)" maxlength="500"></textarea>
-      <p id="Par">AI can make mistakes</p>
+
     </div>
      <button id="button" aria-label="Open Chat">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
