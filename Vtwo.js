@@ -98,11 +98,11 @@
     }
 
     #input:hover {
-      animation: glow 3s infinite alternate;
+      animation: glow 2s infinite alternate;
     }
 
     @keyframes glow {
-      100% { box-shadow: 0px 0px 60px purple; }
+      100% { box-shadow: 0px 0px 55px purple; }
     }
 
     #input::-webkit-scrollbar { width: 6px; }
