@@ -64,7 +64,7 @@
       position: fixed;
       bottom: calc(${offsetY} + 50px);
       right: ${offsetX};
-      box-shadow: 0 0px 20px rgba(255,255,255);
+      box-shadow: 0 0px 15px rgba(255,255,255);
     }
 
     @keyframes slideIn {
