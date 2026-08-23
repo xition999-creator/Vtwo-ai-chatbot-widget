@@ -226,7 +226,10 @@
   transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 #par{
-  color: rgb(81,79,79);
+  color: rgb(60,60,60);
+  padding: 0px 0px;
+  gap: 2px;
+  text-align: center;
 }
 
   `;
