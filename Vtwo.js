@@ -360,6 +360,7 @@
           AIOutput.className = 'AI-output';
           AIOutput.textContent = AImsg;
           div3.appendChild(AIOutput);
+          trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' })
 
           if (AImsg.trim() === "Can't help with that lil bro") {
             trying.classList.add('glowingtingy');
