@@ -73,6 +73,7 @@
     }
 
     #input {
+      font-family: inherit;
       min-height: 8vh;
       margin-top: auto;
       color: white;
@@ -83,8 +84,16 @@
       box-sizing: border-box;
       padding: 10px;
       overflow-y: auto;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       resize: none;
+    }
+
+    #disclaimer {
+      font-family: inherit;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      margin-bottom: 4px;
     }
 
     #input:hover {
@@ -113,6 +122,7 @@
     }
     
     .User-output {
+      font-family: inherit;
       max-width: 75%;
       padding: 10px 16px;
       border-radius: 20px;
@@ -131,6 +141,7 @@
     }
 
     .AI-output {
+      font-family: inherit;
       max-width: 75%;
       padding: 10px 16px;
       border-radius: 20px;
@@ -224,8 +235,6 @@
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); 
   
   transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
-
-
   `;
 
   // Inject DOM Elements inside Shadow Root
@@ -234,7 +243,7 @@
     <div id="div2">
       <div id="div3"></div>
       <textarea id="input" placeholder="Ask something about the site here...(Alt + c to clear)" maxlength="500"></textarea>
-
+      <div id="disclaimer">AI might make mistakes</div>
     </div>
      <button id="button" aria-label="Open Chat">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
