@@ -64,7 +64,7 @@
       position: fixed;
       bottom: calc(${offsetY} + 50px);
       right: ${offsetX};
-      box-shadow: 0 0px 40px rgba(255,255,255);
+      box-shadow: 0 0px 20px rgba(255,255,255);
     }
 
     @keyframes slideIn {
@@ -84,7 +84,7 @@
       box-sizing: border-box;
       padding: 10px;
       overflow-y: auto;
-      margin-bottom: 4px;
+      margin-bottom: 0px;
       resize: none;
     }
 
@@ -93,7 +93,8 @@
       font-size: 11px;
       color: rgba(255, 255, 255, 0.5);
       text-align: center;
-      margin-bottom: 4px;
+      margin-top: -8px;
+      margin-bottom: 0px;
     }
 
     #input:hover {
@@ -122,14 +123,13 @@
     }
     
     .User-output {
-      font-family: inherit;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       max-width: 75%;
       padding: 10px 16px;
       border-radius: 20px;
       background-color: rgba(105, 111, 117, 0.281);
       color: white;
-      font-style: italic;
-      font-weight: bold;
+      font-weight: 500;
       align-self: flex-end;
       height: auto;
       overflow-wrap: break-word;
@@ -141,14 +141,13 @@
     }
 
     .AI-output {
-      font-family: inherit;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       max-width: 75%;
       padding: 10px 16px;
       border-radius: 20px;
       background-color: rgba(105, 111, 117, 0.281);
       color: white;
-      font-style: italic;
-      font-weight: bold;
+      font-weight: 500;
       align-self: flex-start;
       height: auto;
       overflow-wrap: break-word;
