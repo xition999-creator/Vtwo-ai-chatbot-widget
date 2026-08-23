@@ -367,7 +367,7 @@
           }
         }, 700);
       } finally {
-        setTimeout(() => { input.disabled = false; }, 700);
+        setTimeout(() => { input.disabled = false; input.focus(); }, 700);
         trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
       }
     }
