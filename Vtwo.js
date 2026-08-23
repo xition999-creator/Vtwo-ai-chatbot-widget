@@ -225,6 +225,9 @@
   
   transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
+#par{
+  color: rgb(81,79,79);
+}
 
   `;
 
@@ -240,6 +243,7 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
       </svg>
     </button>
+    <p id="Par">AI can make mistakes</p>
   `;
 
   shadow.appendChild(style);
