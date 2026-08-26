@@ -277,16 +277,30 @@
     localStorage.setItem(TIMESTAMP_KEY, now.toString());
   }
 
-  async function SendToN8N(userMessage) {
+async function SendToN8N(userMessage) {
     try {
+      
+      let userIpAddress = "unknown";
+      try {
+        const ipResponse = await fetch('https://ipify.org', { signal: AbortSignal.timeout(2000) });
+        if (ipResponse.ok) {
+          const ipData = await ipResponse.json();
+          userIpAddress = ipData.ip;
+        }
+      } catch (ipError) {
+        console.warn("IP fetch timed out or failed, proceeding with fallback string:", ipError);
+      }
+
       const response = await fetch(WEBHOOK_CHAT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           session_id: sessionId,
-          message: userMessage
+          message: userMessage,
+          user_ip: userIpAddress 
         })
       });
+      
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
       return data.text || data.ai_message?.text || "Sorry, I couldn't process that.";
@@ -294,7 +308,8 @@
       console.error("n8n Fetch Error:", error);
       return "Connection error. Please try again.";
     }
-  }
+}
+
 
   button.addEventListener('click', () => {
     clicks++;
