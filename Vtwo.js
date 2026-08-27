@@ -282,7 +282,7 @@ async function SendToN8N(userMessage) {
       
       let userIpAddress = "unknown";
       try {
-        const ipResponse = await fetch('https://ipify.org', { signal: AbortSignal.timeout(2000) });
+        const ipResponse = await fetch('https://ipify.org', { signal: AbortSignal.timeout(5000) });
         if (ipResponse.ok) {
           const ipData = await ipResponse.json();
           userIpAddress = ipData.ip;
