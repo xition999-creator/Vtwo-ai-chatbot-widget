@@ -272,26 +272,6 @@
     localStorage.setItem(TIMESTAMP_KEY, now.toString());
   }
 
-  // --- INJECTED COOKIE EXTRACTION FUNCTION ---
-  function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    if (match) return match[2];
-    return null;
-  }
-
-  // Map non-httpOnly authentication credentials directly out of cookie container scope
-  const userEmail = getCookie('widget_email');
-  const cryptoString = getCookie('widget_session');
-
-  // THE INITIAL PAGE-LOAD SECURITY GATE
-  if (!userEmail || userEmail.trim() === "" || !cryptoString || cryptoString.trim() === "") {
-    input.disabled = true;
-    window.alert('Relogin to access full features of this site');
-    return; // Hard stop script compilation instantly 
-  }
-  // --- END OF STARTUP INJECTIONS ---
-
-  // CLEANED ASYNC PAYLOAD TRANSMITTER
   async function SendToN8N(userMessage) {
     try {
       const response = await fetch(WEBHOOK_CHAT, {
@@ -299,8 +279,6 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           session_id: sessionId,
-          email: userEmail,             // Server-verified email context from cookie
-          crypto_string: cryptoString,   // Server-verified secure token context from cookie
           message: userMessage
         })
       });
@@ -332,15 +310,6 @@
   input.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      // --- INJECTED RUNTIME TAMPER PROTECTION DOUBLE CHECK ---
-      const liveEmail = getCookie('widget_email');
-      const liveString = getCookie('widget_session');
-      if (!liveEmail || liveEmail.trim() === "" || !liveString || liveString.trim() === "") {
-        input.disabled = true;
-        window.alert('Relogin to access full features of this site');
-        return; // Kill thread execution before it can reach payload execution loops
-      }
-      // --- END OF RUNTIME INJECTION ---
       const usrInput = input.value;
       if (usrInput.trim() === "" || input.disabled) return;
       input.disabled = true;
