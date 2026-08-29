@@ -345,22 +345,25 @@ setTimeout(() => {
     AImsg = AImsg.replace(emailMatch, "").trim();
   }
 
-  // 2. Handle "Lil Bro" Match (Fixed to remove phrase and keep remaining text)
-  if (AImsg.includes("Can't help with that lil bro")) {
+  // 2. Handle "Lil Bro" Match (Using Regex for reliability)
+  let lilBroRegex = /Can't help with that lil bro/i;
+  if (lilBroRegex.test(AImsg)) {
     trying.classList.add('glowingtingy');
     setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
-    // Removes the phrase and cleans up any extra whitespace/breaks left behind
-    AImsg = AImsg.replace("Can't help with that lil bro", "").trim();
+    AImsg = AImsg.replace(lilBroRegex, "").trim();
   }
 
-  // 3. Append and Scroll
-  let AIOutput = document.createElement('div');
-  AIOutput.className = 'AI-output';
-  AIOutput.textContent = AImsg;
-  div3.appendChild(AIOutput);
+  // 3. Append and Scroll (Only if there is text remaining)
+  if (AImsg) {
+    let AIOutput = document.createElement('div');
+    AIOutput.className = 'AI-output';
+    AIOutput.textContent = AImsg;
+    div3.appendChild(AIOutput);
+  }
   
   trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
 }, 700);
+
 
       } finally {
         setTimeout(() => { input.disabled = false; input.focus(); }, 700);
