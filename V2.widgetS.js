@@ -396,7 +396,7 @@
   });
 
 
-    shadow.addEventListener('keydown', (f) => {
+    window.addEventListener('keydown', (f) => {
     if (f.altKey && f.code === 'KeyC') {
       f.preventDefault();
       if (div3) div3.innerHTML = '';
