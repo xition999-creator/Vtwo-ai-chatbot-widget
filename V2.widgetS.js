@@ -272,7 +272,7 @@
     localStorage.setItem(TIMESTAMP_KEY, now.toString());
   }
 
-  // --- INJECTED COOKIE EXTRACTION FUNCTION ---
+
   function getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
@@ -351,15 +351,18 @@
       div3.appendChild(UsrOutput);
       input.value = '';
       trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
+
+     
+      
       try {
         let thinking = document.createElement('div');
         thinking.classList.add('AI-output');
         thinking.id = 'thinkingone';
         thinking.textContent = 'Thinking...';
         div3.appendChild(thinking);
-       let AImsg = await SendToN8N(usrInput);
-      let thinkingRemove = shadow.getElementById('thinkingone');
-      if (thinkingRemove) thinkingRemove.classList.add('finishing');
+         let AImsg = await SendToN8N(usrInput);
+         let thinkingRemove = shadow.getElementById('thinkingone');
+          if (thinkingRemove) thinkingRemove.classList.add('finishing');
 
       setTimeout(() => {
       if (thinkingRemove) thinkingRemove.remove();
@@ -385,8 +388,15 @@
       
       trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
     }, 700);
+      } finally {
+        setTimeout(() => { input.disabled = false; input.focus(); }, 700);
+        trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
+      }
+    }
+  });
 
-  window.addEventListener('keydown', (f) => {
+
+    shadow.addEventListener('keydown', (f) => {
     if (f.altKey && f.code === 'KeyC') {
       f.preventDefault();
       if (div3) div3.innerHTML = '';
