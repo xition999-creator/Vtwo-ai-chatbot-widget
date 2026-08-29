@@ -284,8 +284,7 @@ async function SendToN8N(userMessage) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           session_id: sessionId,
-          message: userMessage,
-          user_ip: userIpAddress 
+          message: userMessage
         })
       });
       
@@ -337,6 +336,10 @@ async function SendToN8N(userMessage) {
 
       input.value = '';
       trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
+
+      let AImsg = await SendToN8N(usrInput);
+      let thinkingRemove = shadow.getElementById('thinkingone');
+      if (thinkingRemove) thinkingRemove.classList.add('finishing');
 
       try {
         let thinking = document.createElement('div');
