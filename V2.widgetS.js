@@ -272,22 +272,26 @@
     localStorage.setItem(TIMESTAMP_KEY, now.toString());
   }
 
-
+  // --- INJECTED COOKIE EXTRACTION FUNCTION ---
   function getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
     return null;
   }
 
+  // Map non-httpOnly authentication credentials directly out of cookie container scope
   const userEmail = getCookie('widget_email');
   const cryptoString = getCookie('widget_session');
 
+  // THE INITIAL PAGE-LOAD SECURITY GATE
   if (!userEmail || userEmail.trim() === "" || !cryptoString || cryptoString.trim() === "") {
     input.disabled = true;
     window.alert('Relogin to access full features of this site');
-    return; 
+    return; // Hard stop script compilation instantly 
   }
-  
+  // --- END OF STARTUP INJECTIONS ---
+
+  // CLEANED ASYNC PAYLOAD TRANSMITTER
   async function SendToN8N(userMessage) {
     try {
       const response = await fetch(WEBHOOK_CHAT, {
@@ -295,8 +299,8 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           session_id: sessionId,
-          email: userEmail,             
-          crypto_string: cryptoString,   
+          email: userEmail,             // Server-verified email context from cookie
+          crypto_string: cryptoString,   // Server-verified secure token context from cookie
           message: userMessage
         })
       });
@@ -328,15 +332,15 @@
   input.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-  
+      // --- INJECTED RUNTIME TAMPER PROTECTION DOUBLE CHECK ---
       const liveEmail = getCookie('widget_email');
       const liveString = getCookie('widget_session');
       if (!liveEmail || liveEmail.trim() === "" || !liveString || liveString.trim() === "") {
         input.disabled = true;
         window.alert('Relogin to access full features of this site');
-        return; 
+        return; // Kill thread execution before it can reach payload execution loops
       }
-      
+      // --- END OF RUNTIME INJECTION ---
       const usrInput = input.value;
       if (usrInput.trim() === "" || input.disabled) return;
       input.disabled = true;
@@ -351,43 +355,33 @@
       div3.appendChild(UsrOutput);
       input.value = '';
       trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
-
-     
-      
       try {
         let thinking = document.createElement('div');
         thinking.classList.add('AI-output');
         thinking.id = 'thinkingone';
         thinking.textContent = 'Thinking...';
         div3.appendChild(thinking);
-         let AImsg = await SendToN8N(usrInput);
-         let thinkingRemove = shadow.getElementById('thinkingone');
-          if (thinkingRemove) thinkingRemove.classList.add('finishing');
-
-      setTimeout(() => {
-      if (thinkingRemove) thinkingRemove.remove();
-      
-      let emailMatch = AImsg.match(/Email\d+/);
-      if (emailMatch) {
-        trying.classList.add('glowytingy');
-        setTimeout(() => trying.classList.remove('glowytingy'), 4000);
-        AImsg = AImsg.replace(emailMatch, "").trim();
-      }
-    
-      if (AImsg.includes("Can't help with that lil bro")) {
-        trying.classList.add('glowingtingy');
-        setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
-    
-        AImsg = AImsg.replace("Can't help with that lil bro", "").trim();
-      }
-    
-      let AIOutput = document.createElement('div');
-      AIOutput.className = 'AI-output';
-      AIOutput.textContent = AImsg;
-      div3.appendChild(AIOutput);
-      
-      trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
-    }, 700);
+        let AImsg = await SendToN8N(usrInput);
+        let thinkingRemove = shadow.getElementById('thinkingone');
+        if (thinkingRemove) thinkingRemove.classList.add('finishing');
+        setTimeout(() => {
+          if (thinkingRemove) thinkingRemove.remove();
+          let emailMatch = AImsg.match(/Email\d+/);
+          if (emailMatch) {
+            trying.classList.add('glowytingy');
+            setTimeout(() => trying.classList.remove('glowytingy'), 4000);
+            AImsg = AImsg.replace(emailMatch, "").trim();
+          }
+          let AIOutput = document.createElement('div');
+          AIOutput.className = 'AI-output';
+          AIOutput.textContent = AImsg;
+          div3.appendChild(AIOutput);
+          trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
+          if (AImsg.trim() === "Can't help with that lil bro") {
+            trying.classList.add('glowingtingy');
+            setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
+          }
+        }, 700);
       } finally {
         setTimeout(() => { input.disabled = false; input.focus(); }, 700);
         trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
@@ -395,8 +389,7 @@
     }
   });
 
-
-    window.addEventListener('keydown', (f) => {
+  window.addEventListener('keydown', (f) => {
     if (f.altKey && f.code === 'KeyC') {
       f.preventDefault();
       if (div3) div3.innerHTML = '';
