@@ -278,25 +278,8 @@
   }
 
 async function SendToN8N(userMessage) {
-    try {
-      let userIpAddress = "unknown";
-      try {
-       
-        const ipResponse = await fetch('https://ipify.org', { 
-          signal: AbortSignal.timeout(5000),
-          headers: { 'Accept': 'application/json' }
-        });
-        
-        if (ipResponse.ok) {
-          const ipData = await ipResponse.json(); 
-          userIpAddress = ipData.ip;
-        }
-      } catch (ipError) {
-        console.warn("IP fetch timed out or failed, proceeding with fallback string:", ipError);
-      }
-
-     
-      const response = await fetch(WEBHOOK_CHAT, {
+    try{  
+    const response = await fetch(WEBHOOK_CHAT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
