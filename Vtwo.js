@@ -362,32 +362,29 @@ async function SendToN8N(userMessage) {
         thinking.textContent = 'Thinking...';
         div3.appendChild(thinking);
 
-        let AImsg = await SendToN8N(usrInput);
-        let thinkingRemove = shadow.getElementById('thinkingone');
+setTimeout(() => {
+  if (thinkingRemove) thinkingRemove.remove();
+  
+  let emailMatch = AImsg.match(/Email\d+/);
+  if (emailMatch) {
+    trying.classList.add('glowytingy');
+    setTimeout(() => trying.classList.remove('glowytingy'), 4000);
+    AImsg = AImsg.replace(emailMatch, "").trim();
+  }
 
-        if (thinkingRemove) thinkingRemove.classList.add('finishing');
+  if (AImsg.includes("Can't help with that lil bro")) {
+    trying.classList.add('glowingtingy');
+    setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
+    AImsg = AImsg.replace("Can't help with that lil bro", "").trim();
+  }
 
-        setTimeout(() => {
-          if (thinkingRemove) thinkingRemove.remove();
-
-          let emailMatch = AImsg.match(/Email\d+/);
-          if (emailMatch) {
-            trying.classList.add('glowytingy');
-            setTimeout(() => trying.classList.remove('glowytingy'), 4000);
-            AImsg = AImsg.replace(emailMatch, "").trim();
-          }
-
-          let AIOutput = document.createElement('div');
-          AIOutput.className = 'AI-output';
-          AIOutput.textContent = AImsg;
-          div3.appendChild(AIOutput);
-          trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' })
-
-          if (AImsg.trim() === "Can't help with that lil bro") {
-            trying.classList.add('glowingtingy');
-            setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
-          }
-        }, 700);
+  let AIOutput = document.createElement('div');
+  AIOutput.className = 'AI-output';
+  AIOutput.textContent = AImsg;
+  div3.appendChild(AIOutput);
+  
+  trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
+}, 700);
       } finally {
         setTimeout(() => { input.disabled = false; input.focus(); }, 700);
         trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
