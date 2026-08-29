@@ -25,17 +25,16 @@
     }
     
     #button {
-           padding: 14px 14px;
-            border: none;
-            border-radius: 19px;
-            cursor: pointer;
-            background-color: rgb(61, 60, 60);
-            font-style: initial;
-            color: rgb(248, 232, 202);
-            font-weight: bolder;
-            box-shadow: 0px 1px 13px rgb(247, 236, 215);
-            float: right;
-            
+      padding: 14px 14px;
+      border: none;
+      border-radius: 19px;
+      cursor: pointer;
+      background-color: rgb(61, 60, 60);
+      font-style: initial;
+      color: rgb(248, 232, 202);
+      font-weight: bolder;
+      box-shadow: 0px 1px 13px rgb(247, 236, 215);
+      float: right;
       transition: background-color 0.3s, transform 0.1s;
     }
     
@@ -225,18 +224,15 @@
     .glowytingy {
       animation: glowytingy 2s infinite alternate;
     }
+    
     textarea:focus {
-  
-  outline: none; 
-  
-  border-color: #3b82f6; 
-  
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); 
-  
-  transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+      outline: none; 
+      border-color: #3b82f6; 
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); 
+      transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    }
   `;
 
-  // Inject DOM Elements inside Shadow Root
   const container = document.createElement('div');
   container.innerHTML = `
     <div id="div2">
@@ -249,7 +245,6 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
       </svg>
     </button>
-    
   `;
 
   shadow.appendChild(style);
@@ -277,27 +272,47 @@
     localStorage.setItem(TIMESTAMP_KEY, now.toString());
   }
 
-async function SendToN8N(userMessage) {
-    try{  
-    const response = await fetch(WEBHOOK_CHAT, {
+  // --- INJECTED COOKIE EXTRACTION FUNCTION ---
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+    return null;
+  }
+
+  // Map non-httpOnly authentication credentials directly out of cookie container scope
+  const userEmail = getCookie('widget_email');
+  const cryptoString = getCookie('widget_session');
+
+  // THE INITIAL PAGE-LOAD SECURITY GATE
+  if (!userEmail || userEmail.trim() === "" || !cryptoString || cryptoString.trim() === "") {
+    input.disabled = true;
+    window.alert('Relogin to access full features of this site');
+    return; // Hard stop script compilation instantly 
+  }
+  // --- END OF STARTUP INJECTIONS ---
+
+  // CLEANED ASYNC PAYLOAD TRANSMITTER
+  async function SendToN8N(userMessage) {
+    try {
+      const response = await fetch(WEBHOOK_CHAT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           session_id: sessionId,
+          email: userEmail,             // Server-verified email context from cookie
+          crypto_string: cryptoString,   // Server-verified secure token context from cookie
           message: userMessage
         })
       });
       
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
-      return data.text || data.ai_message?.text || "Sorry, I couldn't process that.";
+      return data.text || data.ai_message?.text || data.output || "Sorry, I couldn't process that.";
     } catch (error) {
       console.error("n8n Fetch Error:", error);
       return "Connection error. Please try again.";
     }
-}
-
-
+  }
 
   button.addEventListener('click', () => {
     clicks++;
@@ -309,9 +324,7 @@ async function SendToN8N(userMessage) {
     } else {
       trying.classList.remove('animate-me');
       trying.classList.add('slide-out-me');
-      setTimeout(() => {
-        if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-      }, 500);
+      setTimeout(() => { if (clicks % 2 !== 0) trying.style.visibility = 'hidden'; }, 500);
       setTimeout(() => trying.classList.remove('slide-out-me'), 500);
     }
   });
@@ -319,58 +332,56 @@ async function SendToN8N(userMessage) {
   input.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
+      // --- INJECTED RUNTIME TAMPER PROTECTION DOUBLE CHECK ---
+      const liveEmail = getCookie('widget_email');
+      const liveString = getCookie('widget_session');
+      if (!liveEmail || liveEmail.trim() === "" || !liveString || liveString.trim() === "") {
+        input.disabled = true;
+        window.alert('Relogin to access full features of this site');
+        return; // Kill thread execution before it can reach payload execution loops
+      }
+      // --- END OF RUNTIME INJECTION ---
       const usrInput = input.value;
       if (usrInput.trim() === "" || input.disabled) return;
-
       input.disabled = true;
       count++;
       if (count % 5 === 0 || usrInput.length > 30) {
         trying.classList.add('glowingthingy');
         setTimeout(() => trying.classList.remove('glowingthingy'), 4000);
       }
-
       let UsrOutput = document.createElement('div');
       UsrOutput.className = 'User-output';
       UsrOutput.textContent = usrInput;
       div3.appendChild(UsrOutput);
-
       input.value = '';
       trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
-
-      let AImsg = await SendToN8N(usrInput);
-      let thinkingRemove = shadow.getElementById('thinkingone');
-      if (thinkingRemove) thinkingRemove.classList.add('finishing');
-
       try {
         let thinking = document.createElement('div');
         thinking.classList.add('AI-output');
         thinking.id = 'thinkingone';
         thinking.textContent = 'Thinking...';
         div3.appendChild(thinking);
-
-setTimeout(() => {
-  if (thinkingRemove) thinkingRemove.remove();
-  
-  let emailMatch = AImsg.match(/Email\d+/);
-  if (emailMatch) {
-    trying.classList.add('glowytingy');
-    setTimeout(() => trying.classList.remove('glowytingy'), 4000);
-    AImsg = AImsg.replace(emailMatch, "").trim();
-  }
-
-  if (AImsg.includes("Can't help with that lil bro")) {
-    trying.classList.add('glowingtingy');
-    setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
-    AImsg = AImsg.replace("Can't help with that lil bro", "").trim();
-  }
-
-  let AIOutput = document.createElement('div');
-  AIOutput.className = 'AI-output';
-  AIOutput.textContent = AImsg;
-  div3.appendChild(AIOutput);
-  
-  trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
-}, 700);
+        let AImsg = await SendToN8N(usrInput);
+        let thinkingRemove = shadow.getElementById('thinkingone');
+        if (thinkingRemove) thinkingRemove.classList.add('finishing');
+        setTimeout(() => {
+          if (thinkingRemove) thinkingRemove.remove();
+          let emailMatch = AImsg.match(/Email\d+/);
+          if (emailMatch) {
+            trying.classList.add('glowytingy');
+            setTimeout(() => trying.classList.remove('glowytingy'), 4000);
+            AImsg = AImsg.replace(emailMatch, "").trim();
+          }
+          let AIOutput = document.createElement('div');
+          AIOutput.className = 'AI-output';
+          AIOutput.textContent = AImsg;
+          div3.appendChild(AIOutput);
+          trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
+          if (AImsg.trim() === "Can't help with that lil bro") {
+            trying.classList.add('glowingtingy');
+            setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
+          }
+        }, 700);
       } finally {
         setTimeout(() => { input.disabled = false; input.focus(); }, 700);
         trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
@@ -378,17 +389,13 @@ setTimeout(() => {
     }
   });
 
-
   window.addEventListener('keydown', (f) => {
     if (f.altKey && f.code === 'KeyC') {
       f.preventDefault();
-
       if (div3) div3.innerHTML = '';
       if (input) input.value = '';
-
       localStorage.removeItem(SESSION_KEY);
       localStorage.removeItem(TIMESTAMP_KEY);
-
       sessionId = 'sess_' + Math.random().toString(36).substring(2, 11);
       localStorage.setItem(SESSION_KEY, sessionId);
       localStorage.setItem(TIMESTAMP_KEY, Date.now().toString());
@@ -402,13 +409,10 @@ setTimeout(() => {
         clicks++;
         trying.classList.remove('animate-me');
         trying.classList.add('slide-out-me');
-
-        setTimeout(() => {
-          if (clicks % 2 !== 0) trying.style.visibility = 'hidden';
-        }, 500);
-
+        setTimeout(() => { if (clicks % 2 !== 0) trying.style.visibility = 'hidden'; }, 500);
         setTimeout(() => trying.classList.remove('slide-out-me'), 500);
       }
     }
   });
+
 })();
