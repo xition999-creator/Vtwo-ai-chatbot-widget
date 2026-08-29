@@ -331,13 +331,12 @@
         thinking.textContent = 'Thinking...';
         div3.appendChild(thinking);
      let AImsg = await SendToN8N(usrInput);
-let thinkingRemove = shadow.getElementById('thinkingone');
-if (thinkingRemove) thinkingRemove.classList.add('finishing');
+    let thinkingRemove = shadow.getElementById('thinkingone');
+    if (thinkingRemove) thinkingRemove.classList.add('finishing');
 
 setTimeout(() => {
   if (thinkingRemove) thinkingRemove.remove();
   
-  // 1. Handle Email Match
   let emailMatch = AImsg.match(/Email\d+/);
   if (emailMatch) {
     trying.classList.add('glowytingy');
@@ -345,7 +344,7 @@ setTimeout(() => {
     AImsg = AImsg.replace(emailMatch, "").trim();
   }
 
-  // 2. Handle "Lil Bro" Match (Using Regex for reliability)
+
   let lilBroRegex = /Can't help with that lil bro/i;
   if (lilBroRegex.test(AImsg)) {
     trying.classList.add('glowingtingy');
@@ -353,7 +352,6 @@ setTimeout(() => {
     AImsg = AImsg.replace(lilBroRegex, "").trim();
   }
 
-  // 3. Append and Scroll (Only if there is text remaining)
   if (AImsg) {
     let AIOutput = document.createElement('div');
     AIOutput.className = 'AI-output';
