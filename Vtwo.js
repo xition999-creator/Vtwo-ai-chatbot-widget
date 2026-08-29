@@ -330,27 +330,38 @@
         thinking.id = 'thinkingone';
         thinking.textContent = 'Thinking...';
         div3.appendChild(thinking);
-        let AImsg = await SendToN8N(usrInput);
-        let thinkingRemove = shadow.getElementById('thinkingone');
-        if (thinkingRemove) thinkingRemove.classList.add('finishing');
-        setTimeout(() => {
-          if (thinkingRemove) thinkingRemove.remove();
-          let emailMatch = AImsg.match(/Email\d+/);
-          if (emailMatch) {
-            trying.classList.add('glowytingy');
-            setTimeout(() => trying.classList.remove('glowytingy'), 4000);
-            AImsg = AImsg.replace(emailMatch, "").trim();
-          }
-          let AIOutput = document.createElement('div');
-          AIOutput.className = 'AI-output';
-          AIOutput.textContent = AImsg;
-          div3.appendChild(AIOutput);
-          trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
-          if (AImsg.trim() === "Can't help with that lil bro") {
-            trying.classList.add('glowingtingy');
-            setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
-          }
-        }, 700);
+     let AImsg = await SendToN8N(usrInput);
+let thinkingRemove = shadow.getElementById('thinkingone');
+if (thinkingRemove) thinkingRemove.classList.add('finishing');
+
+setTimeout(() => {
+  if (thinkingRemove) thinkingRemove.remove();
+  
+  // 1. Handle Email Match
+  let emailMatch = AImsg.match(/Email\d+/);
+  if (emailMatch) {
+    trying.classList.add('glowytingy');
+    setTimeout(() => trying.classList.remove('glowytingy'), 4000);
+    AImsg = AImsg.replace(emailMatch, "").trim();
+  }
+
+  // 2. Handle "Lil Bro" Match (Fixed to remove phrase and keep remaining text)
+  if (AImsg.includes("Can't help with that lil bro")) {
+    trying.classList.add('glowingtingy');
+    setTimeout(() => trying.classList.remove('glowingtingy'), 8000);
+    // Removes the phrase and cleans up any extra whitespace/breaks left behind
+    AImsg = AImsg.replace("Can't help with that lil bro", "").trim();
+  }
+
+  // 3. Append and Scroll
+  let AIOutput = document.createElement('div');
+  AIOutput.className = 'AI-output';
+  AIOutput.textContent = AImsg;
+  div3.appendChild(AIOutput);
+  
+  trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
+}, 700);
+
       } finally {
         setTimeout(() => { input.disabled = false; input.focus(); }, 700);
         trying.scrollTo({ top: trying.scrollHeight, behavior: 'smooth' });
