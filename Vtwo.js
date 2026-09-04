@@ -33,7 +33,7 @@
    const bgFSH = scriptTag?.getAttribute('data-bg-FSH') || '21px';
    const bgFWH = scriptTag?.getAttribute('data-bg-FWH') || '700';
    const bgBBP = scriptTag?.getAttribute('data-bg-BBP') || '1px';
-   const bgBBC = scriptTag?.getAttribute('data-bg-BBC') || 'rgba(34, 211, 238, 0.22)";
+   const bgBBC = scriptTag?.getAttribute('data-bg-BBC') || 'rgba(34, 211, 238, 0.22)';
   
   
   const drawerTop = `calc(${offsetY} + 50px)`;
