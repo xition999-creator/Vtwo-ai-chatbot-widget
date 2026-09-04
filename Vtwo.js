@@ -27,6 +27,15 @@
   const bgInputBorder = scriptTag?.getAttribute('data-bg-inpBorder') || '#3b82f6';
   const bgInputGlow = scriptTag?.getAttribute('data-bg-InputGlow') || 'rgba(59, 130, 246, 0.6)';
 
+
+   const bgHT = scriptTag?.getAttribute('data-bg-HT') || 'AI Assistant';
+   const bgCH = scriptTag?.getAttribute('data-bg-CH') || 'white';
+   const bgFSH = scriptTag?.getAttribute('data-bg-FSH') || '18px';
+   const bgFWH = scriptTag?.getAttribute('data-bg-FWH') || 'bold';
+   const bgBBP = scriptTag?.getAttribute('data-bg-BBP') || '1px';
+   const bgBBC = scriptTag?.getAttribute('data-bg-BBC') || 'rgba(255,255,255,0.15)';
+  
+  
   const drawerTop = `calc(${offsetY} + 50px)`;
 
   const host = document.createElement('div');
@@ -92,10 +101,10 @@
       align-items: center;
       padding: 0 10px;
       box-sizing: border-box;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
+      color: ${bgCH};
+      font-size: ${bgFSH};
+      font-weight: ${bgFWH};
+      border-bottom: ${bgBBP} solid ${bgBBC};
       flex-shrink: 0;
     }
 
@@ -277,7 +286,7 @@
   container.innerHTML = `
     <div id="div2">
       <div id="header">
-        <span>AI Assistant</span>
+        <span>${bgHT}</span>
       </div>
 
       <div id="div3"></div>
