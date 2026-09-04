@@ -1,6 +1,9 @@
 (function () {
 
-  if (document.getElementById('ai-widget-host')) return;
+const existingHost = document.getElementById('ai-widget-host');
+if (existingHost) {
+  existingHost.remove();
+}
 
   const scriptTag = document.currentScript;
   const WEBHOOK_CHAT = scriptTag?.getAttribute('data-webhook-chat') || "http://localhost:5678/webhook-test/7dd793aa-34b8-4a12-bfa1-cd9920f8f81e";
